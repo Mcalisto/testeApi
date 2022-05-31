@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,7 +28,7 @@ import com.example.demo.model.Cadastro;
 import com.example.demo.repository.CadastroRepository;
 
 
-@Controller
+@RestController
 @RequestMapping(path = "/cadastro")
 public class CadastroController {
     
@@ -34,11 +36,12 @@ public class CadastroController {
 	private CadastroRepository cadastroRepository;
 	
 	public CadastroController (CadastroRepository cadastroRepository) {
+		super();
 		this.cadastroRepository = cadastroRepository;
 	}
 	
 	@PostMapping
-	public ResponseEntity<Cadastro> save(@Valid @RequestBody Cadastro cadastro){
+	public ResponseEntity<Cadastro> save(Cadastro cadastro){
 		cadastroRepository.save(cadastro);
 		return new ResponseEntity<>(cadastro, HttpStatus.OK);
 	}
@@ -73,10 +76,18 @@ public class CadastroController {
 	
 	@PutMapping(value="/{id}")
 	public ResponseEntity<Cadastro> update(@PathVariable Integer id, @RequestBody Cadastro newCadastro){
+		
 		return cadastroRepository.findById(id)
 				.map(
 				cadastro -> {
 				cadastro.setNome(newCadastro.getNome());
+				cadastro.setCpf(newCadastro.getCpf());
+				cadastro.setDtNascimento(newCadastro.getDtNascimento());
+				cadastro.setEmail(newCadastro.getEmail());
+				cadastro.setNacionalidade(newCadastro.getNacionalidade());
+				cadastro.setNaturalidade(newCadastro.getNaturalidade());
+				cadastro.setSexo(newCadastro.getSexo());
+				cadastro.setUpdatedOn(LocalDate.now());
 				Cadastro cadastrooUpdate = cadastroRepository.save(cadastro);
 				return ResponseEntity.ok().body(cadastrooUpdate);
 				}

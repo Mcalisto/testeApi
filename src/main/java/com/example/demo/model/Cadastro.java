@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -34,6 +38,8 @@ public class Cadastro{
 	@JsonFormat(pattern = "MM/dd/yyyy")
 	private Date dtNascimento;
 	
+	
+
 	@Column(name = "naturalidade")
 	private String naturalidade;
 	
@@ -44,10 +50,18 @@ public class Cadastro{
 	@NotBlank(message = "CPF é obrigatorio")
 	private String cpf;
 	
+	@CreatedDate
+	@Column(name = "createdOn", nullable = false, updatable = false)
+    private LocalDate createdOn = LocalDate.now();
+
+    @LastModifiedDate
+    @Column(name = "updatedOn", nullable = false, updatable = true)
+    private LocalDate updatedOn;
+	
 	public Cadastro() {}
 	
 	public Cadastro(String nome, String sexo, String email, Date dtNascimento, String naturalidade, String nacionalidade, String cpf) {
-		//super();
+		super();
 		this.nome = nome;
 		this.sexo = sexo;
 		this.email = email;
@@ -121,6 +135,17 @@ public class Cadastro{
 		this.cpf = cpf;
 	}
 	
+	public LocalDate getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(LocalDate createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public void setUpdatedOn(LocalDate updatedOn) {
+		this.updatedOn = updatedOn;
+	}
 	
 	
 	
