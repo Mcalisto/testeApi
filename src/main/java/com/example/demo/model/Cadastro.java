@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -25,7 +26,7 @@ public class Cadastro{
 	private int ID;
 	
 	@Column(name = "nome")
-	@NotBlank(message = "Nome é obrigatorio")
+	//@NotBlank(message = "Nome é obrigatorio")
 	private String nome;
 	
 	@Column(name = "sexo")
@@ -35,19 +36,17 @@ public class Cadastro{
 	private String email;
 	
 	@Column(name = "dtNascimento")
-	@JsonFormat(pattern = "MM/dd/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dtNascimento;
 	
-	
-
 	@Column(name = "naturalidade")
 	private String naturalidade;
 	
 	@Column(name = "nacionalidade")
 	private String nacionalidade;
 	
-	@Column(name = "cpf")
-	@NotBlank(message = "CPF é obrigatorio")
+	@Column(name = "cpf", unique=true)
+	@CPF
 	private String cpf;
 	
 	@CreatedDate
@@ -55,8 +54,8 @@ public class Cadastro{
     private LocalDate createdOn = LocalDate.now();
 
     @LastModifiedDate
-    @Column(name = "updatedOn", nullable = false, updatable = true)
-    private LocalDate updatedOn;
+    @Column(name = "updatedOn", updatable = true)
+    private LocalDate updatedOn = LocalDate.now();
 	
 	public Cadastro() {}
 	

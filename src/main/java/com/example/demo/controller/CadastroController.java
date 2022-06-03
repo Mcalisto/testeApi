@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Cadastro;
 import com.example.demo.repository.CadastroRepository;
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
 
 
 @RestController
@@ -42,8 +43,15 @@ public class CadastroController {
 	
 	@PostMapping
 	public ResponseEntity<Cadastro> save(Cadastro cadastro){
-		cadastroRepository.save(cadastro);
-		return new ResponseEntity<>(cadastro, HttpStatus.OK);
+		
+		try {
+			cadastroRepository.save(cadastro);
+			return new ResponseEntity<>(cadastro, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+						
 	}
 	
 	@GetMapping
@@ -93,4 +101,7 @@ public class CadastroController {
 				}
 				).orElse(ResponseEntity.notFound().build());
 	}
+	
+	
+	
 }

@@ -23,5 +23,11 @@ public class HomeController {
         
         return "addCadastro";
     }
+    
+    @GetMapping(path="/source")
+    public String sourceCode(Model model) {
+           
+        return "sourceCode";
+    }
 
 }

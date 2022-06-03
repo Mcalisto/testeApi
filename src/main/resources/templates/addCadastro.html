@@ -5,30 +5,33 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        
         <title>Faça o seu cadastro</title>
         
         <style>
 			.center {
 			  margin: auto;
+			  margin-top: 100px;
 			  width: 40%;
-			  border: 3px solid #73AD21;
-			  padding: 20px;
+			  border: 3px solid black;
+			  padding: 70px 0;
+			  text-align: center;
 			}
-	</style>
+		</style>
     </head>
 
     <body class="center">
         <h1 >Faça o seu cadastro</h1>
-
+		<br><br>
          <form th:action="@{/cadastro}" th:object="${cadastro}" method="post">
             <div>
-                <label th:for="nome">Nome:</label>
+                <label th:for="nome">Nome: *</label>
                 <input type="text" th:field="*{nome}" placeholder="Seu Nome" required="required">
             </div>
 			<br>
             <div>
-                <label th:for="dtNascimento">Data de nascimento:</label>
-                <input type="date" th:field="*{dtNascimento}" required="required">
+                <label th:for="dtNascimento">Data de nascimento: *</label>
+                <input type="date" onchange="checkDate()" th:field="*{dtNascimento}" id="dtNascimento" required="required">
             </div>
 			<br>
 			<div>
@@ -48,11 +51,11 @@
 			<br>
             <div>
                 <label th:for="email">Email:</label>
-                <input type="email" th:field="*{email}" placeholder="email" required="required">
+                <input type="email" th:field="*{email}" placeholder="email">
             </div>
             <br>  
              <div>
-                <label th:for="cpf">Cpf:</label>
+                <label th:for="cpf">Cpf: *</label>
                 <input type="text" th:field="*{cpf}" placeholder="cpf" required="required">
             </div>     
 			<br>
@@ -62,3 +65,13 @@
         </form>
     </body>
 </html>
+<script>
+function checkDate() {
+   var selectedText = document.getElementById('dtNascimento').value;
+   var selectedDate = new Date(selectedText);
+   var now = new Date();
+   if (selectedDate > now) {
+    alert("Data de Nascimento não pode ser maior que a data atual!");
+   }
+ }
+</script>
